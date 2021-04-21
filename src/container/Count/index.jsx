@@ -11,7 +11,6 @@ import {
   createIncrementAsyncAction,
 } from '../../redux/count_action'
 
-
 /**
  * 1、传递给UI组件的函数  返回值是对象
  * 2、key作为传递给UI组件props的key value就作为props的value---状态

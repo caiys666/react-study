@@ -274,6 +274,7 @@ ReactDOM.unmountComponentAtNode(document.getElementById('root'))
   * `constant.j`s  放置用于编码疏忽写错action中的type
 
 ## 14、异步action
+
 * 明确：延迟的动作不想交给组件自身，想交给action
 
 * 何时需要异步action：想要对状态进行操作，但是具体的数据靠异步任务返回
@@ -294,10 +295,10 @@ ReactDOM.unmountComponentAtNode(document.getElementById('root'))
 
 * 明确两个概念：
 
-  * UI组件：不能使用任何redux的api，只负责页面的呈现、交互等
-  * 容器组件：负责和redux通信，将结果交给UI组件
+  * `UI`组件：不能使用任何`redux`的`api`，只负责页面的呈现、交互等
+  * 容器组件：负责和`redux`通信，将结果交给`UI`组件
 
-* 如何创建一个容器组件----靠react-redux的connect函数
+* 如何创建一个容器组件----靠`react-redux`的connect函数
 
   ```jsx
   // 容器组件  充当一个桥梁的作用，在UI组件和redux之间进行传输
@@ -349,3 +350,38 @@ ReactDOM.unmountComponentAtNode(document.getElementById('root'))
   ```
 
 * 备注：容器组件中的store是靠props传进去的，而不是在容器组件中直接引入的
+
+* 备注：`mapDispatchToProps`也可以是一个对象
+
+## 16、`react-redux`优化
+
+* 容器组件和`UI`组件整合一个组件
+
+* 无需自己给容器组件传递`store`，给<App/>包裹一个<Provider store={store}>即可
+
+* 使用了`react-redux`后也不用再自己检测`redux`中状态的变化了，容器组件可以自动完成这个工作
+
+* `mapDispatchToProps`也可以简写城一个对象
+
+* 一个组件要和`redux`打交道要经过哪几步？
+
+  * 定义好`UI`组件----不暴露
+
+  * 引入`connect`生成一个容器组件，并暴露，写法如下：
+
+    ```jsx
+    export default connect(
+      (state) => ({
+        count: state,
+      }),
+      // mapDispatchTpProps的简写
+      {
+        increment: createIncrementAction,
+        decrement: createDecrementAction,
+        incrementAsync: createIncrementAsyncAction,
+      }
+    )(CountReactRedux)
+    ```
+
+  * 在`UI`组件中通过`this.props.xxxxx`读取和操作状态
+
