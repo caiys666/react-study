@@ -10,6 +10,7 @@ function App() {
   return (
     <div className="App">
       <Button type="primary">Primary Button</Button>
+      {/** 给容器组件传递store */}
       <Count store={store} />
     </div>
   )
