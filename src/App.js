@@ -1,5 +1,4 @@
 import { Button } from 'antd'
-import store from './redux/store'
 
 // import Count from './components/count/Count.jsx'
 // import CountReact from './components/count/CountReact.jsx'
@@ -11,7 +10,7 @@ function App() {
     <div className="App">
       <Button type="primary">Primary Button</Button>
       {/** 给容器组件传递store */}
-      <Count store={store} />
+      <Count />
     </div>
   )
 }

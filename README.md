@@ -289,3 +289,63 @@ ReactDOM.unmountComponentAtNode(document.getElementById('root'))
   * 异步任务有结果后，分发一个同步的action去真正操作数据
 
 * 备注：异步action不是必须要写的，完全可以自己等待异步任务的结果之后再去分发同步action
+
+## 15、`react-redux`的基本使用
+
+* 明确两个概念：
+
+  * UI组件：不能使用任何redux的api，只负责页面的呈现、交互等
+  * 容器组件：负责和redux通信，将结果交给UI组件
+
+* 如何创建一个容器组件----靠react-redux的connect函数
+
+  ```jsx
+  // 容器组件  充当一个桥梁的作用，在UI组件和redux之间进行传输
+  // 引入UI组件
+  import CountUI from '../../components/count/CountReactRedux.jsx'
+  
+  // 引入connect用于连接UI组件与redux
+  import { connect } from 'react-redux'
+  
+  import {
+    createIncrementAction,
+    createDecrementAction,
+    createIncrementAsyncAction,
+  } from '../../redux/count_action'
+  
+  
+  /**
+   * 1、传递给UI组件的函数  返回值是对象
+   * 2、key作为传递给UI组件props的key value就作为props的value---状态
+   * 3、mapStateToProps用于传递状态
+   */
+  
+  function mapStateToProps(state) {
+    return { count: state }
+  }
+  
+  /**
+   * 1、传递给UI组件的函数  返回值是对象
+   * 2、key作为传递给UI组件props的key value就作为props的value---状态
+   * 3、mapDispatchToProps用于传递操作状态的方法
+   */
+  function mapDispatchToProps(dispatch) {
+    return {
+      increment: (data) => {
+        // 通知redux执行操作  加法
+        dispatch(createIncrementAction(data))
+      },
+      decrement: (data) => {
+        dispatch(createDecrementAction(data))
+      },
+      incrementAsync: (data, time) => {
+        dispatch(createIncrementAsyncAction(data, time))
+      },
+    }
+  }
+  
+  // 使用connect()()创建并暴露一个容器组件
+  export default connect(mapStateToProps, mapDispatchToProps)(CountUI)
+  ```
+
+* 备注：容器组件中的store是靠props传进去的，而不是在容器组件中直接引入的
