@@ -10,9 +10,8 @@ import {
 
 // 使用Redux求和案例迷你版
 export default class Count extends Component {
-  state = { count: 0 }
   componentDidMount() {
-    //  检测redux中的状态的变化，只要变化，就调用render
+    // 检测redux中的状态的变化，只要变化，就调用render
     store.subscribe(() => {
       this.setState({})
     })
